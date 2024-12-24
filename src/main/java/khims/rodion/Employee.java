@@ -1,12 +1,12 @@
 package khims.rodion;
 
 public class Employee {
-    private String fio;
-    private String position;
-    private String email;
-    private String phone;
-    private double salary;
-    private int age;
+    private final String fio;
+    private final String position;
+    private final String email;
+    private final String phone;
+    private final double salary;
+    private final int age;
 
     public Employee(String fio, String position, String email, String phone, double salary, int age) {
         this.fio = fio;
