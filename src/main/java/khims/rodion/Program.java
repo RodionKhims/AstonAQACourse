@@ -8,14 +8,14 @@ public class Program {
         compareNumbers();
         checkBetween(5, 10);
         checkNegative(0);
-        isNegative(-1);
+        System.out.println(isNegative(-1));
         cyclePrint("AQA", 3);
-        isLeapYear(2024);
+        System.out.println(isLeapYear(2024));
         replaceZeroOne();
         fillArr();
         calcArray();
         initMatrix();
-        initArr(10, 1);
+        System.out.println(initArr(10, 1));
     }
 
     private static void printThreeWords() {
@@ -82,7 +82,7 @@ public class Program {
     private static void replaceZeroOne() {
         int[] arr = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (arr[i] + 1) & 0x1;
+            arr[i] = (arr[i] + 1) % 2;
         }
     }
 
