@@ -10,11 +10,11 @@ public class Cat extends Animal {
 
     @Override
     protected void running(int distance) {
-        System.out.println(getName() + " runs " + distance + " m");
+        System.out.println("Cat " + getName() + " runs " + distance + " m");
     }
 
     @Override
     protected void swimming(int distance) {
-        System.out.println(getName() + " can not swim");
+        System.out.println("Cat " + getName() + " can not swim");
     }
 }

@@ -4,6 +4,7 @@ public abstract class Animal {
     private final int runningDistanceLimit;
     private final int swimmingDistanceLimit;
     private final String name;
+    private boolean satiety;
 
     public Animal(int runningDistanceLimit, int swimmingDistanceLimit, String name) {
         this.runningDistanceLimit = runningDistanceLimit;
@@ -27,8 +28,26 @@ public abstract class Animal {
         swimming(distance);
     }
 
+    public void eat(Dish dish, int foodCount) {
+        if (satiety) {
+            return;
+        }
+
+        if (dish.decrease(foodCount)) {
+            satiety = true;
+        }
+    }
+
     public String getName() {
         return name;
+    }
+
+    public boolean isSatiety() {
+        return satiety;
+    }
+
+    public void setSatiety(boolean satiety) {
+        this.satiety = satiety;
     }
 
     protected abstract void running(int distance);

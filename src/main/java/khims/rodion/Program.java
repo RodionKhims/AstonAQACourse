@@ -2,6 +2,7 @@ package khims.rodion;
 
 import khims.rodion.task1.Animal;
 import khims.rodion.task1.Cat;
+import khims.rodion.task1.Dish;
 import khims.rodion.task1.Dog;
 
 import java.util.ArrayList;
@@ -26,5 +27,12 @@ public class Program {
         animals.addAll(cats);
         animals.addAll(dogs);
         System.out.println("Animal count = " + animals.size());
+
+        Dish dish = new Dish(75);
+        animals.forEach(animal -> {
+            animal.eat(dish, 20);
+            System.out.println(animal.getName() + " satiety = " + animal.isSatiety());
+            dish.increase(5);
+        });
     }
 }

@@ -10,11 +10,11 @@ public class Dog extends Animal {
 
     @Override
     protected void running(int distance) {
-        System.out.println(getName() + " runs " + distance + " m");
+        System.out.println("Dog " + getName() + " runs " + distance + " m");
     }
 
     @Override
     protected void swimming(int distance) {
-        System.out.println(getName() + " swims " + distance + " m");
+        System.out.println("Dog " + getName() + " swims " + distance + " m");
     }
 }
