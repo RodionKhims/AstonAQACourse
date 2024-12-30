@@ -4,6 +4,10 @@ import khims.rodion.task1.Animal;
 import khims.rodion.task1.Cat;
 import khims.rodion.task1.Dish;
 import khims.rodion.task1.Dog;
+import khims.rodion.task2.BorderedShape;
+import khims.rodion.task2.Circle;
+import khims.rodion.task2.Rectangle;
+import khims.rodion.task2.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,21 @@ public class Program {
             animal.eat(dish, 20);
             System.out.println(animal.getName() + " satiety = " + animal.isSatiety());
             dish.increase(5);
+        });
+
+
+        List<BorderedShape> shapes = List.of(
+                new Circle("Black", "White", 10),
+                new Triangle("Red", "Blue", 3, 4, 5),
+                new Rectangle("Green", "Yellow", 5, 10)
+        );
+        shapes.forEach(shape -> {
+            System.out.println(shape.getClass().getSimpleName() +
+                    ": border = " + shape.getBorderColor() +
+                    ", fill = " + shape.getFillColor() +
+                    ", P = " + shape.calcP() +
+                    ", S = " + shape.calcS()
+            );
         });
     }
 }
