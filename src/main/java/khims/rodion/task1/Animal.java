@@ -17,7 +17,7 @@ public abstract class Animal {
             System.out.println(name + " can not run that distance");
             return;
         }
-        running(distance);
+        animalRun(distance);
     }
 
     public void swim(int distance) {
@@ -25,7 +25,7 @@ public abstract class Animal {
             System.out.println(name + " can not swim that distance");
             return;
         }
-        swimming(distance);
+        animalSwim(distance);
     }
 
     public void eat(Dish dish, int foodCount) {
@@ -50,6 +50,6 @@ public abstract class Animal {
         this.satiety = satiety;
     }
 
-    protected abstract void running(int distance);
-    protected abstract void swimming(int distance);
+    protected abstract void animalRun(int distance);
+    protected abstract void animalSwim(int distance);
 }
