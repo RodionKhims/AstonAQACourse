@@ -5,16 +5,10 @@ public class Dog extends Animal {
     private static final int SWIMMING_DISTANCE_LIMIT = 10;
 
     public Dog(String name) {
-        super(RUNNING_DISTANCE_LIMIT, SWIMMING_DISTANCE_LIMIT, name);
-    }
-
-    @Override
-    protected void innerRun(int distance) {
-        System.out.println("Dog " + getName() + " runs " + distance + " m");
-    }
-
-    @Override
-    protected void innerSwim(int distance) {
-        System.out.println("Dog " + getName() + " swims " + distance + " m");
+        super(RUNNING_DISTANCE_LIMIT
+                ,SWIMMING_DISTANCE_LIMIT
+                ,(distance) -> System.out.println("Dog " + name + " runs " + distance + " m")
+                ,(distance) -> System.out.println("Dog " + name + " swims " + distance + " m")
+                ,name);
     }
 }

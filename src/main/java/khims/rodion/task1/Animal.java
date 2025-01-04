@@ -1,14 +1,20 @@
 package khims.rodion.task1;
 
+import java.util.function.Consumer;
+
 public abstract class Animal {
     private final int runningDistanceLimit;
     private final int swimmingDistanceLimit;
+    private final Consumer<Integer> runConsumer;
+    private final Consumer<Integer> swimConsumer;
     private final String name;
     private boolean satiety;
 
-    public Animal(int runningDistanceLimit, int swimmingDistanceLimit, String name) {
+    public Animal(int runningDistanceLimit, int swimmingDistanceLimit, Consumer<Integer> runConsumer, Consumer<Integer> swimConsumer, String name) {
         this.runningDistanceLimit = runningDistanceLimit;
         this.swimmingDistanceLimit = swimmingDistanceLimit;
+        this.runConsumer = runConsumer;
+        this.swimConsumer = swimConsumer;
         this.name = name;
     }
 
@@ -17,7 +23,7 @@ public abstract class Animal {
             System.out.println(name + " can not run that distance");
             return;
         }
-        innerRun(distance);
+        runConsumer.accept(distance);
     }
 
     public void swim(int distance) {
@@ -25,7 +31,7 @@ public abstract class Animal {
             System.out.println(name + " can not swim that distance");
             return;
         }
-        innerSwim(distance);
+        swimConsumer.accept(distance);
     }
 
     public void eat(Dish dish, int foodCount) {
@@ -49,9 +55,6 @@ public abstract class Animal {
     public void setSatiety(boolean satiety) {
         this.satiety = satiety;
     }
-
-    protected abstract void innerRun(int distance);
-    protected abstract void innerSwim(int distance);
 
     private boolean isCanRun(int distance) {
         return distance <= runningDistanceLimit;
