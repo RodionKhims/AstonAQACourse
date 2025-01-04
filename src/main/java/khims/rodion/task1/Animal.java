@@ -13,19 +13,19 @@ public abstract class Animal {
     }
 
     public void run(int distance) {
-        if (distance > runningDistanceLimit) {
+        if (!isCanRun(distance)) {
             System.out.println(name + " can not run that distance");
             return;
         }
-        animalRun(distance);
+        innerRun(distance);
     }
 
     public void swim(int distance) {
-        if (distance > swimmingDistanceLimit) {
+        if (!isCanSwim(distance)) {
             System.out.println(name + " can not swim that distance");
             return;
         }
-        animalSwim(distance);
+        innerSwim(distance);
     }
 
     public void eat(Dish dish, int foodCount) {
@@ -50,6 +50,14 @@ public abstract class Animal {
         this.satiety = satiety;
     }
 
-    protected abstract void animalRun(int distance);
-    protected abstract void animalSwim(int distance);
+    protected abstract void innerRun(int distance);
+    protected abstract void innerSwim(int distance);
+
+    private boolean isCanRun(int distance) {
+        return distance <= runningDistanceLimit;
+    }
+
+    private boolean isCanSwim(int distance) {
+        return distance <= swimmingDistanceLimit;
+    }
 }
