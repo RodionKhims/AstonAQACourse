@@ -20,7 +20,7 @@ public class Program {
     }
 
     private static int calcArraySum(String[][] arr) throws MyArraySizeException, MyArrayDataException {
-        if (arr.length > 4 || arr[0].length > 4) {
+        if (arr.length != 4 || arr[0].length != 4) {
             throw new MyArraySizeException();
         }
 
