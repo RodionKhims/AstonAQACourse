@@ -13,6 +13,9 @@ public class PhoneBook {
                     phones.add(phone);
                     phoneMap.put(name, phones);
                 });
+
+//        phoneMap.putIfAbsent(name, new ArrayList<>());
+//        phoneMap.get(name).add(phone);
     }
 
     public List<String> getPhones(String name) {
