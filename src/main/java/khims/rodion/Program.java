@@ -1,6 +1,8 @@
 package khims.rodion;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Program {
@@ -9,10 +11,14 @@ public class Program {
                 "word1", "word2", "word1", "word3", "word1", "word2", "word4", "word1", "word5", "word1"
                 , "word7", "word10", "word6", "word9", "word1", "word3", "word1", "word1", "word2", "word5"
         );
-        List<String> uniqueWords = words.stream()
-                .distinct()
+        Map<String, Long> wordsFreq = words.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(wordsFreq);
+        List<String> uniqueWords = wordsFreq.entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-        System.out.println("Unique words: " + uniqueWords);
+        System.out.println(uniqueWords);
 
         PhoneBook phoneBook = new PhoneBook();
         phoneBook.add("Ivanov", "+79111111111");
