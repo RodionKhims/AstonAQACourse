@@ -1,0 +1,7 @@
+<suite name="AllTests">
+    <test name="Factorial">
+        <classes>
+            <class name="khims.rodion.MathUtilsTest" />
+        </classes>
+    </test>
+</suite>
