@@ -1,19 +1,32 @@
 package khims.rodion.steps;
 
 import khims.rodion.driver.SeleniumDriver;
-import khims.rodion.pojo.CookieAgreementForm;
-import org.openqa.selenium.support.PageFactory;
+import khims.rodion.page.CookieAgreementForm;
+import org.openqa.selenium.WebElement;
+
+import java.util.Objects;
 
 public class CookieAgreementFormSteps {
     private final CookieAgreementForm cookieAgreementForm;
 
     public CookieAgreementFormSteps() {
-        cookieAgreementForm = PageFactory.initElements(SeleniumDriver.getInstance(), CookieAgreementForm.class);
+        cookieAgreementForm = new CookieAgreementForm();
     }
 
     public void accept() {
-        if (cookieAgreementForm.getCookieForm().isDisplayed()) {
-            cookieAgreementForm.getAcceptButton().click();
+        if (isAccepted()) {
+            return;
         }
+        WebElement acceptButton = cookieAgreementForm.getAcceptButton();
+        if (Objects.isNull(acceptButton)) {
+            return;
+        }
+        acceptButton.click();
+    }
+
+    private boolean isAccepted() {
+        return SeleniumDriver.getInstance().manage().getCookies().stream()
+                .filter(cookie -> "_tt_enable_cookie".equals(cookie.getName()))
+                .anyMatch(cookie -> "1".equals(cookie.getValue()));
     }
 }

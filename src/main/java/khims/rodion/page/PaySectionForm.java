@@ -1,4 +1,4 @@
-package khims.rodion.pojo;
+package khims.rodion.page;
 
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
@@ -13,4 +13,7 @@ public class PaySectionForm {
 
     @FindBy(xpath = "//div[@id='pay-section']//div[@class='pay__partners']//li")
     private List<WebElement> payPartners;
+
+    @FindBy(xpath = "//div[@id='pay-section']//section[@class='pay']//a")
+    private WebElement aboutServiceLink;
 }

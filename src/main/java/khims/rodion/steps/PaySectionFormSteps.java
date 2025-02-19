@@ -1,7 +1,7 @@
 package khims.rodion.steps;
 
 import khims.rodion.driver.SeleniumDriver;
-import khims.rodion.pojo.PaySectionForm;
+import khims.rodion.page.PaySectionForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 
@@ -18,12 +18,15 @@ public class PaySectionFormSteps {
 
     public boolean isExistAllPayPartnersLogo() {
         return paySectionForm.getPayPartners().stream()
-                .allMatch(el -> {
-                    return el.findElement(By.tagName("img")).isDisplayed();
-                });
+                .allMatch(el -> el.findElement(By.tagName("img")).isDisplayed());
     }
 
     public int getPayPartnersCount() {
         return paySectionForm.getPayPartners().size();
+    }
+
+    public AboutServicePageSteps clickAboutService() {
+        paySectionForm.getAboutServiceLink().click();
+        return new AboutServicePageSteps();
     }
 }
