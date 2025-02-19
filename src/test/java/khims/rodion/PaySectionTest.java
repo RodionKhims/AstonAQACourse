@@ -2,6 +2,7 @@ package khims.rodion;
 
 import khims.rodion.driver.SeleniumDriver;
 import khims.rodion.steps.AboutServicePageSteps;
+import khims.rodion.steps.BePaidAppFormSteps;
 import khims.rodion.steps.CookieAgreementFormSteps;
 import khims.rodion.steps.PaySectionFormSteps;
 import org.assertj.core.api.Assertions;
@@ -35,5 +36,12 @@ public class PaySectionTest extends BaseTest {
         AboutServicePageSteps aboutServicePageSteps = paySectionFormSteps.clickAboutService();
         Assertions.assertThat(aboutServicePageSteps.getCurrentSiteMapPositionName())
                 .isEqualTo("Порядок оплаты и безопасность интернет платежей");
+    }
+
+    @Test
+    public void testSuccessProceedPayForm() {
+        paySectionFormSteps.fillForm("297777777", 5);
+        BePaidAppFormSteps bePaidAppFormSteps = paySectionFormSteps.proceed();
+        Assertions.assertThat(bePaidAppFormSteps.isDisplayed()).isTrue();
     }
 }

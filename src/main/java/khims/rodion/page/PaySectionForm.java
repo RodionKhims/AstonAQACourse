@@ -16,4 +16,13 @@ public class PaySectionForm {
 
     @FindBy(xpath = "//div[@id='pay-section']//section[@class='pay']//a")
     private WebElement aboutServiceLink;
+
+    @FindBy(id = "connection-phone")
+    private WebElement phoneInput;
+
+    @FindBy(id = "connection-sum")
+    private WebElement sumInput;
+
+    @FindBy(xpath = "//div[@id='pay-section']//section[@class='pay']//button[contains(@class, 'button')]")
+    private WebElement proceedButton;
 }

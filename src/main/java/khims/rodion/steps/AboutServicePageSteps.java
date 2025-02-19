@@ -5,7 +5,7 @@ import khims.rodion.page.AboutServicePage;
 import org.openqa.selenium.support.PageFactory;
 
 public class AboutServicePageSteps {
-    private AboutServicePage aboutServicePage;
+    private final AboutServicePage aboutServicePage;
 
     public AboutServicePageSteps() {
         aboutServicePage = PageFactory.initElements(SeleniumDriver.getInstance(), AboutServicePage.class);

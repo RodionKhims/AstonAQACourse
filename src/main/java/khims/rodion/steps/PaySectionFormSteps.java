@@ -29,4 +29,14 @@ public class PaySectionFormSteps {
         paySectionForm.getAboutServiceLink().click();
         return new AboutServicePageSteps();
     }
+
+    public void fillForm(String phone, double sum) {
+        paySectionForm.getPhoneInput().sendKeys(phone);
+        paySectionForm.getSumInput().sendKeys(String.valueOf(sum));
+    }
+
+    public BePaidAppFormSteps proceed() {
+        paySectionForm.getProceedButton().click();
+        return new BePaidAppFormSteps();
+    }
 }
