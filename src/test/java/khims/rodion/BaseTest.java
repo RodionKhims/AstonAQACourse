@@ -11,6 +11,7 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--lang=ru");
+        options.addArguments("--start-maximized");
         SeleniumDriver.setOptions(options);
     }
 }
