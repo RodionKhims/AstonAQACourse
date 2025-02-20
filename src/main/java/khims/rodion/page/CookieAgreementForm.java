@@ -6,6 +6,6 @@ import org.openqa.selenium.WebElement;
 
 public class CookieAgreementForm {
     public WebElement getAcceptButton() {
-        return LazyLoadElement.waitFor(15, 3, By.id("cookie-agree"));
+        return LazyLoadElement.waitForClickable(30, 3, By.id("cookie-agree"));
     }
 }

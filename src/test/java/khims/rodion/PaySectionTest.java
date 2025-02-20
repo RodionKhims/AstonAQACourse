@@ -1,6 +1,7 @@
 package khims.rodion;
 
 import khims.rodion.driver.SeleniumDriver;
+import khims.rodion.page.PaySectionForm;
 import khims.rodion.steps.AboutServicePageSteps;
 import khims.rodion.steps.BePaidAppFormSteps;
 import khims.rodion.steps.CookieAgreementFormSteps;
@@ -9,6 +10,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class PaySectionTest extends BaseTest {
     private PaySectionFormSteps paySectionFormSteps;
@@ -43,10 +46,25 @@ public class PaySectionTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Test Opening Pay Form")
+    @DisplayName("Test Opening Connection Pay Form")
     public void testSuccessProceedPayForm() {
-        paySectionFormSteps.fillForm("297777777", 5);
-        BePaidAppFormSteps bePaidAppFormSteps = paySectionFormSteps.proceed();
+        paySectionFormSteps.fillConnectionPayForm("297777777", 5);
+        BePaidAppFormSteps bePaidAppFormSteps = paySectionFormSteps.proceedConnectionPay();
         Assertions.assertThat(bePaidAppFormSteps.isDisplayed()).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("Test placeholders of pay form")
+    @CsvSource({
+            "0, Номер телефона, Сумма, E-mail для отправки чека",
+            "1, Номер абонента, Сумма, E-mail для отправки чека",
+            "2, Номер счета на 44, Сумма, E-mail для отправки чека",
+            "3, Номер счета на 2073, Сумма, E-mail для отправки чека",
+    })
+    public void testPayFormPlaceholders(int index, String numPlaceHolder, String sumPlaceholder, String emailPlaceholder) {
+        paySectionFormSteps.choosePayOption(index);
+        Assertions.assertThat(paySectionFormSteps.getNumInputPlaceholder(index)).isEqualTo(numPlaceHolder);
+        Assertions.assertThat(paySectionFormSteps.getSumInputPlaceholder(index)).isEqualTo(sumPlaceholder);
+        Assertions.assertThat(paySectionFormSteps.getEmailInputPlaceholder(index)).isEqualTo(emailPlaceholder);
     }
 }

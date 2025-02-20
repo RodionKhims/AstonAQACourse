@@ -21,7 +21,9 @@ public class CookieAgreementFormSteps {
         if (Objects.isNull(acceptButton)) {
             return;
         }
-        acceptButton.click();
+        if (acceptButton.isEnabled()) {
+            acceptButton.click();
+        }
     }
 
     private boolean isAccepted() {
