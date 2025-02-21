@@ -18,6 +18,6 @@ public class BaseTest {
 
     @AfterAll
     public static void tearDown() {
-        SeleniumDriver.getInstance().quit();
+//        SeleniumDriver.getInstance().quit();
     }
 }
