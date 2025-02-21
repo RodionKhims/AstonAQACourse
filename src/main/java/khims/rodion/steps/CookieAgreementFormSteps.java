@@ -1,5 +1,6 @@
 package khims.rodion.steps;
 
+import khims.rodion.annotation.PageElementResolver;
 import khims.rodion.driver.SeleniumDriver;
 import khims.rodion.page.CookieAgreementForm;
 import org.openqa.selenium.WebElement;
@@ -17,11 +18,14 @@ public class CookieAgreementFormSteps {
         if (isAccepted()) {
             return;
         }
+        PageElementResolver.resolve(SeleniumDriver.getInstance(), cookieAgreementForm);
         WebElement acceptButton = cookieAgreementForm.getAcceptButton();
         if (Objects.isNull(acceptButton)) {
             return;
         }
-        acceptButton.click();
+        if (acceptButton.isEnabled()) {
+            acceptButton.click();
+        }
     }
 
     private boolean isAccepted() {
