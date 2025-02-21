@@ -1,5 +1,6 @@
 package khims.rodion.steps;
 
+import khims.rodion.annotation.PageElementResolver;
 import khims.rodion.driver.SeleniumDriver;
 import khims.rodion.page.BePaidAppForm;
 import khims.rodion.utils.LazyLoadElement;
@@ -12,7 +13,7 @@ public class BePaidAppFormSteps {
     public BePaidAppFormSteps() {
         bePaidAppForm = new BePaidAppForm();
         LazyLoadElement.waitForIFrame(20, 2, By.className("bepaid-iframe"));
-        LazyLoadElement.waitForPresent(20, 2, By.xpath("//app-card-page//button[@type='submit']"));
+        PageElementResolver.resolve(SeleniumDriver.getInstance(), bePaidAppForm);
         PageFactory.initElements(SeleniumDriver.getInstance(), bePaidAppForm);
     }
 
