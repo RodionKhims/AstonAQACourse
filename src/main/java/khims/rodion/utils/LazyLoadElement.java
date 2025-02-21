@@ -12,11 +12,7 @@ import java.time.Duration;
 public class LazyLoadElement {
     public static WebElement waitFor(long timeout, long polling, By by) {
         try {
-            Wait<WebDriver> wait = new FluentWait<>(SeleniumDriver.getInstance())
-                    .withTimeout(Duration.ofSeconds(timeout))
-                    .pollingEvery(Duration.ofSeconds(polling))
-                    .ignoring(NoSuchElementException.class);
-
+            Wait<WebDriver> wait = createWait(timeout, polling);
             return wait.until(driver -> driver.findElement(by));
         } catch (Exception ex) {
             return null;
@@ -25,14 +21,17 @@ public class LazyLoadElement {
 
     public static WebElement waitForClickable(long timeout, long polling, By by) {
         try {
-            Wait<WebDriver> wait = new FluentWait<>(SeleniumDriver.getInstance())
-                    .withTimeout(Duration.ofSeconds(timeout))
-                    .pollingEvery(Duration.ofSeconds(polling))
-                    .ignoring(NoSuchElementException.class);
-
+            Wait<WebDriver> wait = createWait(timeout, polling);
             return wait.until(ExpectedConditions.elementToBeClickable(by));
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    private static Wait<WebDriver> createWait(long timeout, long polling) {
+        return new FluentWait<>(SeleniumDriver.getInstance())
+                .withTimeout(Duration.ofSeconds(timeout))
+                .pollingEvery(Duration.ofSeconds(polling))
+                .ignoring(NoSuchElementException.class);
     }
 }
