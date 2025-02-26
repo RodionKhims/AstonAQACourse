@@ -1,128 +1,65 @@
 package khims.rodion;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import khims.rodion.dto.ResponseDTO;
+import khims.rodion.utils.RequestSpecificationUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class EchoTest extends BaseTest {
+    private final Map<String, Object> params = Map.of(
+            "key1", "value1",
+            "key2", "value2"
+    );
+    private final String data = "Test data";
+
     @Test
+    @DisplayName("Test Get Request")
     public void testGetRequest() {
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .param("key1", "value1")
-                    .param("key2", "value2")
-                .when()
-                    .get("get")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getArgs().get("key1")).isEqualTo("value1");
-        Assertions.assertThat(responseDTO.getArgs().get("key2")).isEqualTo("value2");
-        assertHeaders(responseDTO.getHeaders(), 0);
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/get?key1=value1&key2=value2");
+        ResponseDTO responseDTO = testEchoMethod(null, "get", params, null);
+        params.forEach((key, value) ->
+                Assertions.assertThat(responseDTO.getArgs().get(key)).isEqualTo(value));
+        Assertions.assertThat(responseDTO.getUrl()).contains("https://postman-echo.com/get");
     }
 
     @Test
+    @DisplayName("Test Post Raw Text")
     public void testPostRawText() {
-        String data = "Test data";
-
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .body(data)
-                .when()
-                    .post("post")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getData()).isEqualTo(data);
-        assertHeaders(responseDTO.getHeaders(), data.length());
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/post");
+        testEchoMethod(data, "post", null, null);
     }
 
     @Test
+    @DisplayName("Test Post Form Data")
     public void testPostFormData() {
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .contentType("application/x-www-form-urlencoded; charset=utf-8")
-                    .param("key1", "value1")
-                    .param("key2", "value2")
-                .when()
-                    .post("post")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getForm().get("key1")).isEqualTo("value1");
-        Assertions.assertThat(responseDTO.getForm().get("key2")).isEqualTo("value2");
-        Assertions.assertThat(responseDTO.getJson().get("key1")).isEqualTo("value1");
-        Assertions.assertThat(responseDTO.getJson().get("key2")).isEqualTo("value2");
-        assertHeaders(responseDTO.getHeaders(), 23);
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/post");
+        ResponseDTO responseDTO = testEchoMethod(null, "post", params, "application/x-www-form-urlencoded; charset=utf-8");
+        params.forEach((key, value) -> {
+            Assertions.assertThat(responseDTO.getForm().get(key)).isEqualTo(value);
+            Assertions.assertThat(responseDTO.getJson().get(key)).isEqualTo(value);
+        });
     }
 
     @Test
+    @DisplayName("Test Put Request")
     public void testPutRequest() {
-        String data = "Test data";
-
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .body(data)
-                .when()
-                    .put("put")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getData()).isEqualTo(data);
-        assertHeaders(responseDTO.getHeaders(), data.length());
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/put");
+        testEchoMethod(data, "put", null, null);
     }
 
     @Test
+    @DisplayName("Test Patch Request")
     public void testPatchRequest() {
-        String data = "Test data";
-
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .body(data)
-                .when()
-                    .patch("patch")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getData()).isEqualTo(data);
-        assertHeaders(responseDTO.getHeaders(), data.length());
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/patch");
+        testEchoMethod(data, "patch", null, null);
     }
 
     @Test
+    @DisplayName("Test Delete Request")
     public void testDeleteRequest() {
-        String data = "Test data";
-
-        ResponseDTO responseDTO = RestAssured
-                .given()
-                    .baseUri("https://postman-echo.com/")
-                    .body(data)
-                .when()
-                    .delete("delete")
-                .then()
-                    .statusCode(200)
-                    .extract().body().as(ResponseDTO.class);
-
-        Assertions.assertThat(responseDTO.getData()).isEqualTo(data);
-        assertHeaders(responseDTO.getHeaders(), data.length());
-        Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/delete");
+        testEchoMethod(data, "delete", null, null);
     }
 
     private static void assertHeaders(Map<String, Object> headers, int contentLength) {
@@ -132,6 +69,45 @@ public class EchoTest extends BaseTest {
         Assertions.assertThat(headers.get("x-forwarded-port")).isEqualTo("443");
         if (contentLength > 0) {
             Assertions.assertThat(headers.get("content-length")).isEqualTo(String.valueOf(contentLength));
+        }
+    }
+
+    private static ResponseDTO testEchoMethod(String body, String method, Map<String, Object> params, String contentType) {
+        RequestSpecification requestSpecification = RestAssured
+                .given()
+                .baseUri("https://postman-echo.com/");
+        requestSpecification = RequestSpecificationUtils.buildContentType(requestSpecification, contentType);
+        requestSpecification = RequestSpecificationUtils.buildBody(requestSpecification, body);
+        requestSpecification = RequestSpecificationUtils.buildParams(requestSpecification, params);
+        Response response = execRequest(requestSpecification, method);
+        ResponseDTO responseDTO = response.then()
+                .statusCode(200)
+                .extract().body().as(ResponseDTO.class);
+
+        if (Objects.nonNull(body)) {
+            Assertions.assertThat(responseDTO.getData()).isEqualTo(body);
+            assertHeaders(responseDTO.getHeaders(), body.length());
+        }
+        if (!"get".equals(method)) {
+            Assertions.assertThat(responseDTO.getUrl()).isEqualTo("https://postman-echo.com/" + method);
+        }
+        return responseDTO;
+    }
+
+    private static Response execRequest(RequestSpecification requestSpecification, String method) {
+        switch (method) {
+            case "get":
+                return requestSpecification.when().get(method);
+            case "post":
+                return requestSpecification.when().post(method);
+            case "put":
+                return requestSpecification.when().put(method);
+            case "patch":
+                return requestSpecification.when().patch(method);
+            case "delete":
+                return requestSpecification.when().delete(method);
+            default:
+                throw new IllegalArgumentException(method);
         }
     }
 }
